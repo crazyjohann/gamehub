@@ -23,4 +23,7 @@ export type NexusGame = {
   image: string | null
   featured: boolean
   icon: string
+  description: string
+  controls: Array<{ keys: string; action: string }>
+  proTip: string
 }

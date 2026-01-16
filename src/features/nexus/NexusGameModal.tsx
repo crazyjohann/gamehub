@@ -76,7 +76,7 @@ export function NexusGameModal({ game, onClose }: Props) {
     }, 150)
   }, [isPlaying])
 
-  const tip = useMemo(() => '"Focus on combos to multiply your score quickly!"', [])
+  const tip = useMemo(() => `"${game.proTip}"`, [game.proTip])
 
   if (!isOpen || !game) return null
 
@@ -247,7 +247,7 @@ export function NexusGameModal({ game, onClose }: Props) {
                   Description
                 </h4>
                 <p id="modal-desc" className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.70)' }}>
-                  Experience high-octane gameplay in this thrilling adventure. Master the mechanics and beat the high score.
+                  {game.description}
                 </p>
               </div>
 
@@ -259,22 +259,12 @@ export function NexusGameModal({ game, onClose }: Props) {
                   Controls
                 </h4>
                 <div className="grid grid-cols-2 gap-2 text-xs" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                  <div className="control-button glass-panel rounded-lg p-2 text-center">
-                    <i className="fa-solid fa-arrows-up-down-left-right mb-1 block" />
-                    WASD / Arrows
-                  </div>
-                  <div className="control-button glass-panel rounded-lg p-2 text-center">
-                    <i className="fa-solid fa-mouse mb-1 block" />
-                    Aim / Click
-                  </div>
-                  <div className="control-button glass-panel rounded-lg p-2 text-center">
-                    <div className="text-lg font-bold">SPC</div>
-                    Jump
-                  </div>
-                  <div className="control-button glass-panel rounded-lg p-2 text-center">
-                    <div className="text-lg font-bold">E</div>
-                    Interact
-                  </div>
+                  {game.controls.slice(0, 6).map((c) => (
+                    <div key={`${c.keys}-${c.action}`} className="control-button glass-panel rounded-lg p-2 text-center">
+                      <div className="text-lg font-bold">{c.keys}</div>
+                      <div className="mt-0.5">{c.action}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
 

@@ -1,5 +1,6 @@
 import { existingGamesList } from './existingGames'
 import { newGamesList } from './newGames'
+import { nexusGameMetadataBySlug } from './metadata'
 import type { NexusGame, NexusGenre } from './types'
 
 const featuredSlugs = [
@@ -61,6 +62,41 @@ function inferIcon(genre: Exclude<NexusGenre, 'all'>) {
   }
 }
 
+function getDefaultControls(genre: Exclude<NexusGenre, 'all'>): Array<{ keys: string; action: string }> {
+  switch (genre) {
+    case 'puzzle':
+      return [
+        { keys: 'Mouse', action: 'Click / Drag' },
+        { keys: 'E', action: 'Menu / Use' },
+      ]
+    case 'racing':
+      return [
+        { keys: 'WASD / Arrows', action: 'Drive' },
+        { keys: 'Space', action: 'Brake / Action' },
+      ]
+    case 'sports':
+      return [
+        { keys: 'WASD / Arrows', action: 'Move' },
+        { keys: 'Mouse', action: 'Aim / Action' },
+      ]
+    default:
+      return [
+        { keys: 'WASD / Arrows', action: 'Move' },
+        { keys: 'Mouse', action: 'Aim / Click' },
+        { keys: 'Space', action: 'Action' },
+        { keys: 'E', action: 'Interact' },
+      ]
+  }
+}
+
+function getDefaultDescription(title: string) {
+  return `Jump in and play ${title}. Explore the mechanics, chase high scores, and have fun.`
+}
+
+function getDefaultProTip() {
+  return 'Try a few runs to learn patterns and optimize your strategy.'
+}
+
 export function buildGames(): NexusGame[] {
   const allGamesData = [...existingGamesList, ...newGamesList]
   const games: NexusGame[] = []
@@ -81,7 +117,23 @@ export function buildGames(): NexusGame[] {
     const featured = featuredSlugs.includes(slug)
     const icon = inferIcon(genre)
 
-    games.push({ id: index, title, url, genre, rating, slug, hue, image: null, featured, icon })
+    const meta = nexusGameMetadataBySlug[slug]
+
+    games.push({
+      id: index,
+      title,
+      url,
+      genre,
+      rating,
+      slug,
+      hue,
+      image: null,
+      featured,
+      icon,
+      description: meta?.description ?? getDefaultDescription(title),
+      controls: meta?.controls ?? getDefaultControls(genre),
+      proTip: meta?.proTip ?? getDefaultProTip(),
+    })
     index += 1
   }
 
