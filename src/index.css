@@ -131,7 +131,7 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.52;
   background:
     /* subtle scanlines */
     repeating-linear-gradient(
@@ -140,13 +140,31 @@
       rgba(255,255,255,0.05) 1px,
       transparent 2px,
       transparent 6px
-    );
+    ),
+    /* flowing aurora/wave sheets */
+    radial-gradient(1200px 700px at 20% 75%, hsla(var(--nx-holo-a) / 0.10), transparent 60%),
+    radial-gradient(1000px 700px at 85% 30%, hsla(var(--nx-holo-b) / 0.10), transparent 62%),
+    radial-gradient(1200px 700px at 50% 10%, hsla(var(--nx-holo-c) / 0.08), transparent 60%);
+  background-size: auto, 160% 160%, 180% 180%, 160% 160%;
+  background-position: 0 0, 0% 50%, 100% 50%, 50% 0%;
   mix-blend-mode: overlay;
+  animation: nx-wave-flow 18s ease-in-out infinite;
 }
 
 @keyframes nx-space-drift {
   0%, 100% { filter: saturate(1.05); transform: translate3d(0, 0, 0); }
   50% { filter: saturate(1.15); transform: translate3d(0, -8px, 0); }
+}
+
+@keyframes nx-wave-flow {
+  0%, 100% {
+    background-position: 0 0, 0% 55%, 100% 45%, 50% 0%;
+    filter: saturate(1.05);
+  }
+  50% {
+    background-position: 0 20px, 100% 45%, 0% 60%, 50% 100%;
+    filter: saturate(1.15);
+  }
 }
 
 /* (Very) subtle perspective grid */
@@ -285,6 +303,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .nx-app-shell::before,
+  .nx-app-shell::after,
   .nx-hero-icon,
   .nx-holo-title {
     animation: none !important;
