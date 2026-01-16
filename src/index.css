@@ -357,6 +357,26 @@ body.bg-theme-12 {
   background-size: 400% 400%;
   animation: matrix-flow 10s linear infinite;
 }
+body.bg-theme-13 {
+  background: linear-gradient(135deg, #3d1a2f, #d66a2a, #ff2e78, #3d1a2f);
+  background-size: 400% 400%;
+  animation: sunset-run 12s ease-in-out infinite;
+}
+body.bg-theme-14 {
+  background: linear-gradient(135deg, #071a12, #00b36b, #c3ff00, #071a12);
+  background-size: 400% 400%;
+  animation: lime-charge 11s ease-in-out infinite;
+}
+body.bg-theme-15 {
+  background: linear-gradient(-45deg, #1b1038, #ffb703, #ff6b00, #1b1038);
+  background-size: 400% 400%;
+  animation: amber-nebula 14s ease-in-out infinite;
+}
+body.bg-theme-16 {
+  background: linear-gradient(135deg, #0b1220, #2dd4bf, #a5f3fc, #0b1220);
+  background-size: 400% 400%;
+  animation: glacier-prism 13s ease-in-out infinite;
+}
 
 /* Light theme base */
 body.light-theme {
@@ -424,6 +444,26 @@ body.light-theme.bg-theme-12 {
   background: linear-gradient(-135deg, #ecfdf5, #ccfbf1, #99f6e4, #ecfdf5);
   background-size: 400% 400%;
   animation: matrix-flow 10s linear infinite;
+}
+body.light-theme.bg-theme-13 {
+  background: linear-gradient(135deg, #fff1f2, #fed7aa, #fbcfe8, #fff1f2);
+  background-size: 400% 400%;
+  animation: sunset-run 12s ease-in-out infinite;
+}
+body.light-theme.bg-theme-14 {
+  background: linear-gradient(135deg, #ecfdf5, #bbf7d0, #ecfccb, #ecfdf5);
+  background-size: 400% 400%;
+  animation: lime-charge 11s ease-in-out infinite;
+}
+body.light-theme.bg-theme-15 {
+  background: linear-gradient(-45deg, #fff7ed, #fde68a, #fed7aa, #fff7ed);
+  background-size: 400% 400%;
+  animation: amber-nebula 14s ease-in-out infinite;
+}
+body.light-theme.bg-theme-16 {
+  background: linear-gradient(135deg, #f1f5f9, #cffafe, #dbeafe, #f1f5f9);
+  background-size: 400% 400%;
+  animation: glacier-prism 13s ease-in-out infinite;
 }
 
 /* Global overlay layers */
@@ -496,6 +536,10 @@ body.bg-theme-12::after {
 @keyframes overlay-float { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-10px) } }
 @keyframes stars-twinkle { 0%,100%{ opacity:0.3 } 50%{ opacity:0.7 } }
 @keyframes scanlines { 0%{ transform:translateY(0) } 100%{ transform:translateY(20px) } }
+@keyframes sunset-run { 0%,100%{ background-position:0% 50% } 50%{ background-position:100% 50% } }
+@keyframes lime-charge { 0%,100%{ background-position:0% 50% } 50%{ background-position:100% 50% } }
+@keyframes amber-nebula { 0%,100%{ background-position:0% 50% } 50%{ background-position:100% 50% } }
+@keyframes glacier-prism { 0%,100%{ background-position:50% 0% } 50%{ background-position:50% 100% } }
 
 /* Light mode comprehensive overrides */
 body.light-theme .glass-panel,

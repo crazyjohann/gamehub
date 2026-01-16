@@ -5,7 +5,7 @@ type Props = {
   onOpenChange: (open: boolean) => void
 }
 
-const BG_THEMES = Array.from({ length: 12 }, (_, i) => `bg-theme-${i + 1}`)
+const BG_THEMES = Array.from({ length: 16 }, (_, i) => `bg-theme-${i + 1}`)
 
 const BG_THEME_PRESETS = [
   { id: 'bg-theme-1', name: 'Deep Space', preview: 'linear-gradient(135deg, #1a0b2e 0%, #0f0c29 50%, #24243e 100%)' },
@@ -20,6 +20,10 @@ const BG_THEME_PRESETS = [
   { id: 'bg-theme-10', name: 'Chocolate Earth', preview: 'linear-gradient(45deg, #4e342e 0%, #6d4c41 55%, #4e342e 100%)' },
   { id: 'bg-theme-11', name: 'Azure Sky', preview: 'linear-gradient(180deg, #01579b 0%, #039be5 60%, #01579b 100%)' },
   { id: 'bg-theme-12', name: 'Emerald Matrix', preview: 'linear-gradient(-135deg, #267871 0%, #00acc1 60%, #1a5652 100%)' },
+  { id: 'bg-theme-13', name: 'Sunset Circuit', preview: 'linear-gradient(135deg, #3d1a2f 0%, #d66a2a 45%, #ff2e78 100%)' },
+  { id: 'bg-theme-14', name: 'Cyber Lime', preview: 'linear-gradient(135deg, #071a12 0%, #00b36b 45%, #c3ff00 100%)' },
+  { id: 'bg-theme-15', name: 'Nebula Amber', preview: 'linear-gradient(-45deg, #1b1038 0%, #ffb703 45%, #ff6b00 100%)' },
+  { id: 'bg-theme-16', name: 'Glacier Prism', preview: 'linear-gradient(135deg, #0b1220 0%, #2dd4bf 50%, #a5f3fc 100%)' },
 ]
 
 const FONT_THEMES = [
@@ -232,6 +236,14 @@ function getBgHex(id: string) {
       return '#01579b'
     case 'bg-theme-12':
       return '#267871'
+    case 'bg-theme-13':
+      return '#3d1a2f'
+    case 'bg-theme-14':
+      return '#00b36b'
+    case 'bg-theme-15':
+      return '#ffb703'
+    case 'bg-theme-16':
+      return '#2dd4bf'
     default:
       return '#0d1117'
   }
