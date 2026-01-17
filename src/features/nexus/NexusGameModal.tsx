@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { NexusGame } from './games'
 
 type Props = {
@@ -78,7 +78,7 @@ export function NexusGameModal({ game, onClose }: Props) {
 
   if (!isOpen || !game) return null
 
-  const tip = useMemo(() => `"${game.proTip}"`, [game.proTip])
+  const tip = `"${game.proTip}"`
 
   function exitFullscreenIfNeeded() {
     const doc = document as unknown as {
