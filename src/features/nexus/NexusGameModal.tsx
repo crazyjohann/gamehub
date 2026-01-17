@@ -76,9 +76,9 @@ export function NexusGameModal({ game, onClose }: Props) {
     }, 150)
   }, [isPlaying])
 
-  const tip = useMemo(() => `"${game.proTip}"`, [game.proTip])
-
   if (!isOpen || !game) return null
+
+  const tip = useMemo(() => `"${game.proTip}"`, [game.proTip])
 
   function exitFullscreenIfNeeded() {
     const doc = document as unknown as {
