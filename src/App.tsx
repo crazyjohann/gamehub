@@ -47,50 +47,11 @@ function App() {
 
     document.body.classList.toggle('light-theme', savedTheme === 'light')
 
-    for (let i = 1; i <= 16; i += 1) document.body.classList.remove(`bg-theme-${i}`)
+    for (let i = 1; i <= 12; i += 1) document.body.classList.remove(`bg-theme-${i}`)
     document.body.classList.add(savedBg)
 
     document.body.classList.remove('font-theme-1', 'font-theme-2', 'font-theme-3')
     document.body.classList.add(savedFont)
-
-    // 3) FX + token restore (accent/glow + glass blur + textures + palette)
-    const glow = Number(localStorage.getItem('nxGlow') || '1')
-    const blur = Number(localStorage.getItem('nxBlur') || '10')
-    const texture = localStorage.getItem('nxTexture') || 'scanlines'
-
-    document.documentElement.style.setProperty('--nx-glow', String(Number.isFinite(glow) ? glow : 1))
-    document.documentElement.style.setProperty('--nx-glass-blur', `${Number.isFinite(blur) ? blur : 10}px`)
-
-    document.body.classList.remove('nx-texture-scanlines', 'nx-texture-noise', 'nx-texture-off')
-    document.body.classList.add(
-      texture === 'noise' ? 'nx-texture-noise' : texture === 'off' ? 'nx-texture-off' : 'nx-texture-scanlines',
-    )
-
-    const neonBlue = localStorage.getItem('nxNeonBlue')
-    const neonPurple = localStorage.getItem('nxNeonPurple')
-    const neonPink = localStorage.getItem('nxNeonPink')
-    const holoA = localStorage.getItem('nxHoloA')
-    const holoB = localStorage.getItem('nxHoloB')
-    const holoC = localStorage.getItem('nxHoloC')
-
-    if (neonBlue) document.documentElement.style.setProperty('--neon-blue', neonBlue)
-    if (neonPurple) document.documentElement.style.setProperty('--neon-purple', neonPurple)
-    if (neonPink) document.documentElement.style.setProperty('--neon-pink', neonPink)
-    if (holoA) document.documentElement.style.setProperty('--nx-holo-a', holoA)
-    if (holoB) document.documentElement.style.setProperty('--nx-holo-b', holoB)
-    if (holoC) document.documentElement.style.setProperty('--nx-holo-c', holoC)
-
-    const glassBgAlpha = localStorage.getItem('nxGlassBgAlpha')
-    const glassBorderAlpha = localStorage.getItem('nxGlassBorderAlpha')
-    const glassHighlightAlpha = localStorage.getItem('nxGlassHighlightAlpha')
-    if (glassBgAlpha) document.documentElement.style.setProperty('--glass-bg', `255 255 255 / ${glassBgAlpha}`)
-    if (glassBorderAlpha)
-      document.documentElement.style.setProperty('--glass-border-rgb', `255 255 255 / ${glassBorderAlpha}`)
-    if (glassHighlightAlpha)
-      document.documentElement.style.setProperty('--glass-highlight-rgb', `255 255 255 / ${glassHighlightAlpha}`)
-
-    const textureOpacity = localStorage.getItem('nxTextureOpacity')
-    if (textureOpacity) document.documentElement.style.setProperty('--nx-texture-opacity', textureOpacity)
   }, [])
 
   useEffect(() => {
