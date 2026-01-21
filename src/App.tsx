@@ -167,7 +167,7 @@ function App() {
         <button
           type="button"
           onClick={() => setThemeModalOpen(true)}
-          className="fixed right-6 top-6 z-50 rounded-full p-3 transition duration-200 hover:scale-[1.05]"
+          className="fixed right-6 top-6 z-[250] rounded-full p-3 transition duration-200 hover:scale-[1.05]"
           aria-label="Customize theme"
         >
           <i className="fa-solid fa-palette nx-theme-btn-icon" />

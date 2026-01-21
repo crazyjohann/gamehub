@@ -278,7 +278,7 @@ export function NexusThemeModal({ open, onOpenChange }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 z-[300] flex items-center justify-center"
       style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(var(--nx-glass-blur))' }}
       role="dialog"
       aria-modal="true"
