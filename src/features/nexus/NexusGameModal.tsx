@@ -195,15 +195,40 @@ export function NexusGameModal({ game, onClose }: Props) {
           >
             {!isPlaying ? (
               <div id="game-placeholder" className="p-4 text-center">
-                <div
-                  className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full"
-                  style={{ background: 'rgba(0,243,255,0.2)' }}
-                >
-                  <i className="fa-solid fa-play text-3xl" style={{ color: 'hsl(var(--neon-blue))' }} />
-                </div>
-                <p className="mb-6 text-sm modal-placeholder-text">
-                  Ready to launch {game.title}?
-                </p>
+                {game.image ? (
+                  <div
+                    className="relative mx-auto mb-4 h-32 w-full max-w-sm overflow-hidden rounded-2xl"
+                    style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+                  >
+                    <img
+                      src={game.image}
+                      alt={`${game.title} game thumbnail`}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.65))' }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div
+                        className="flex h-16 w-16 items-center justify-center rounded-full"
+                        style={{ background: 'rgba(0,243,255,0.22)' }}
+                      >
+                        <i className="fa-solid fa-play text-2xl" style={{ color: 'hsl(var(--neon-blue))' }} />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full"
+                    style={{ background: 'rgba(0,243,255,0.2)' }}
+                  >
+                    <i className="fa-solid fa-play text-3xl" style={{ color: 'hsl(var(--neon-blue))' }} />
+                  </div>
+                )}
+
+                <p className="mb-6 text-sm modal-placeholder-text">Ready to launch {game.title}?</p>
                 <button
                   type="button"
                   onClick={() => setIsPlaying(true)}
