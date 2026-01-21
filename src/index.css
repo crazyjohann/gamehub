@@ -13,6 +13,12 @@
     --neon-pink: 340 100% 50%; /* #ff0055 */
     --dark-bg: 247 54% 11%; /* #0f0c29 */
 
+    /* Effect controls (theme modal) */
+    --nx-glow: 1; /* 0.4 → 1.4 (multiplier) */
+    --nx-glass-blur: 10px; /* 6px → 20px */
+    --nx-texture-opacity: 0.52; /* 0 → 0.7 */
+
+    /* Glass tokens (rgb() with alpha channel) */
     --glass-bg: 255 255 255 / 0.03;
     --glass-border-rgb: 255 255 255 / 0.08;
     --glass-highlight-rgb: 255 255 255 / 0.15;
@@ -131,13 +137,13 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.52;
+  opacity: var(--nx-texture-opacity);
   background:
     /* subtle scanlines */
     repeating-linear-gradient(
       to bottom,
-      rgba(255,255,255,0.05) 0px,
-      rgba(255,255,255,0.05) 1px,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
       transparent 2px,
       transparent 6px
     ),
@@ -149,6 +155,39 @@
   background-position: 0 0, 0% 50%, 100% 50%, 50% 0%;
   mix-blend-mode: overlay;
   animation: nx-wave-flow 18s ease-in-out infinite;
+}
+
+/* Texture modes (body class controlled by theme modal) */
+body.nx-texture-off .nx-app-shell::after {
+  opacity: 0;
+}
+
+body.nx-texture-scanlines .nx-app-shell::after {
+  background:
+    /* subtle scanlines */
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 2px,
+      transparent 6px
+    ),
+    /* flowing aurora/wave sheets */
+    radial-gradient(1200px 700px at 20% 75%, hsla(var(--nx-holo-a) / 0.10), transparent 60%),
+    radial-gradient(1000px 700px at 85% 30%, hsla(var(--nx-holo-b) / 0.10), transparent 62%),
+    radial-gradient(1200px 700px at 50% 10%, hsla(var(--nx-holo-c) / 0.08), transparent 60%);
+  background-size: auto, 160% 160%, 180% 180%, 160% 160%;
+  background-position: 0 0, 0% 50%, 100% 50%, 50% 0%;
+}
+
+body.nx-texture-noise .nx-app-shell::after {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E"),
+    radial-gradient(1200px 700px at 20% 75%, hsla(var(--nx-holo-a) / 0.10), transparent 60%),
+    radial-gradient(1000px 700px at 85% 30%, hsla(var(--nx-holo-b) / 0.10), transparent 62%),
+    radial-gradient(1200px 700px at 50% 10%, hsla(var(--nx-holo-c) / 0.08), transparent 60%);
+  background-size: 320px 320px, 160% 160%, 180% 180%, 160% 160%;
+  background-position: 0 0, 0% 50%, 100% 50%, 50% 0%;
 }
 
 @keyframes nx-space-drift {
@@ -188,7 +227,7 @@
    ========================= */
 
 .nx-hero-icon {
-  filter: drop-shadow(0 0 16px hsla(var(--neon-blue) / 0.45));
+  filter: drop-shadow(0 0 16px hsla(var(--neon-blue) / calc(0.45 * var(--nx-glow))));
   animation: nx-float 4.8s ease-in-out infinite;
 }
 
@@ -210,16 +249,16 @@
   -webkit-background-clip: text;
   background-clip: text;
   text-shadow:
-    0 0 22px hsla(var(--neon-blue) / 0.25),
-    0 0 42px hsla(var(--neon-purple) / 0.20);
+    0 0 22px hsla(var(--neon-blue) / calc(0.25 * var(--nx-glow))),
+    0 0 42px hsla(var(--neon-purple) / calc(0.20 * var(--nx-glow)));
   animation: nx-holo-shift 6s ease-in-out infinite;
 }
 
 .nx-holo-title:hover {
   text-shadow:
-    1px 0 0 rgba(255,0,85,0.45),
-    -1px 0 0 rgba(0,243,255,0.45),
-    0 0 26px hsla(var(--neon-blue) / 0.35);
+    1px 0 0 hsla(var(--neon-pink) / calc(0.45 * var(--nx-glow))),
+    -1px 0 0 hsla(var(--neon-blue) / calc(0.45 * var(--nx-glow))),
+    0 0 26px hsla(var(--neon-blue) / calc(0.35 * var(--nx-glow)));
 }
 
 @keyframes nx-holo-shift {
@@ -246,7 +285,7 @@
   background:
     radial-gradient(
       400px 320px at var(--nx-mx, 50%) var(--nx-my, 50%),
-      hsla(var(--neon-blue) / 0.22),
+      hsla(var(--neon-blue) / calc(0.22 * var(--nx-glow))),
       transparent 60%
     );
   transition: opacity 200ms ease;
@@ -264,7 +303,12 @@
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(120deg, hsla(var(--neon-blue) / 0.50), hsla(var(--neon-purple) / 0.40), hsla(var(--neon-pink) / 0.45));
+  background: linear-gradient(
+    120deg,
+    hsla(var(--neon-blue) / calc(0.50 * var(--nx-glow))),
+    hsla(var(--neon-purple) / calc(0.40 * var(--nx-glow))),
+    hsla(var(--neon-pink) / calc(0.45 * var(--nx-glow)))
+  );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -296,9 +340,9 @@
 .nx-esc-hint {
   background: rgba(0,0,0,0.55);
   border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 0 24px rgba(0,243,255,0.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 0 24px hsla(var(--neon-blue) / calc(0.18 * var(--nx-glow)));
+  backdrop-filter: blur(var(--nx-glass-blur));
+  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -592,9 +636,9 @@ body.light-theme #modal-desc { color: #334155; }
 body.light-theme .modal-placeholder-text { color: #334155; }
 
 .play-now-button {
-  background: #00f3ff;
+  background: hsl(var(--neon-blue));
   color: #0f0c29;
-  box-shadow: 0 0 20px rgba(0,243,255,0.4);
+  box-shadow: 0 0 20px hsla(var(--neon-blue) / calc(0.40 * var(--nx-glow)));
   transition: filter 200ms ease, transform 200ms ease;
 }
 .play-now-button:hover { filter: brightness(1.06); }
@@ -613,7 +657,7 @@ body.light-theme .overlay { background: rgba(255,255,255,0.20); }
 .play-button {
   background: hsl(var(--neon-blue));
   color: #0f0c29;
-  box-shadow: 0 0 15px rgba(0,243,255,0.6);
+  box-shadow: 0 0 15px hsla(var(--neon-blue) / calc(0.60 * var(--nx-glow)));
   transform: translateY(4px);
 }
 body.light-theme .play-button {
@@ -706,19 +750,19 @@ body.light-theme .theme-name { color: rgba(15,23,42,0.80); text-shadow: none; }
 
 /* Nexus UI utilities */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(var(--glass-bg));
+  border: 1px solid rgb(var(--glass-border-rgb));
   box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(var(--nx-glass-blur));
+  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(var(--glass-bg));
+  border: 1px solid rgb(var(--glass-border-rgb));
   box-shadow: 0 16px 50px -20px rgba(0, 0, 0, 0.60);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(var(--nx-glass-blur));
+  -webkit-backdrop-filter: blur(var(--nx-glass-blur));
 }
 
 .section-title {
@@ -771,7 +815,7 @@ body.light-theme .section-title { border-left-color: #3182ce; }
 .nx-focus-neon:focus {
   outline: none;
   border-color: hsla(var(--neon-blue) / 1);
-  box-shadow: 0 0 10px hsla(var(--neon-blue) / 1);
+  box-shadow: 0 0 10px hsla(var(--neon-blue) / calc(1 * var(--nx-glow)));
 }
 
 .shake { animation: shake 0.5s ease; }
