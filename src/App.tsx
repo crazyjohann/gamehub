@@ -2,17 +2,7 @@ import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import { NexusPasswordModal } from './features/nexus/NexusPasswordModal'
 import { NexusThemeModal } from './features/nexus/NexusThemeModal'
 import { NexusGameModal } from './features/nexus/NexusGameModal'
-import {
-  buildGames,
-  getAllGenres,
-  getFeaturedGames,
-  type NexusGame,
-} from './features/nexus/games'
-import {
-  fetchCrazyGamesThumbnail,
-  loadThumbnailCache,
-  saveThumbnailCache,
-} from './features/nexus/games/thumbnails'
+import { buildGames, getAllGenres, getFeaturedGames, type NexusGame } from './features/nexus/games'
 
 const SESSION_KEY = 'nexus_auth'
 
@@ -35,58 +25,8 @@ function App() {
   const [debouncedQuery, setDebouncedQuery] = useState('')
   const [genre, setGenre] = useState('all')
   const [activeGame, setActiveGame] = useState<NexusGame | null>(null)
-  const [thumbs, setThumbs] = useState<Record<string, string>>({})
 
-  const baseGames = useMemo(() => buildGames(), [])
-
-  useEffect(() => {
-    const cached = loadThumbnailCache()
-    setThumbs(cached)
-
-    let cancelled = false
-
-    const missing = baseGames.map((g) => g.slug).filter((slug) => !cached[slug])
-    const concurrency = 6
-    let index = 0
-    let inFlight = 0
-
-    const pump = () => {
-      while (!cancelled && inFlight < concurrency && index < missing.length) {
-        const slug = missing[index]
-        index += 1
-        inFlight += 1
-
-        fetchCrazyGamesThumbnail(slug)
-          .then((url) => {
-            if (cancelled || !url) return
-            setThumbs((prev) => {
-              if (prev[slug]) return prev
-              const next = { ...prev, [slug]: url }
-              saveThumbnailCache(next)
-              return next
-            })
-          })
-          .finally(() => {
-            inFlight -= 1
-            pump()
-          })
-      }
-    }
-
-    pump()
-
-    return () => {
-      cancelled = true
-    }
-  }, [baseGames])
-
-  const games = useMemo(() => {
-    return baseGames.map((g) => {
-      const image = thumbs[g.slug]
-      return image ? { ...g, image } : g
-    })
-  }, [baseGames, thumbs])
-
+  const games = useMemo(() => buildGames(), [])
   const genres = useMemo(() => getAllGenres(games), [games])
   const featured = useMemo(() => getFeaturedGames(games), [games])
 
@@ -341,31 +281,13 @@ function App() {
                     <div
                       className="game-card-art relative mb-4 flex h-40 items-center justify-center overflow-hidden rounded-xl"
                       style={{
-                        background: g.image ? undefined : getCardArtBackground(g.hue),
+                        background: getCardArtBackground(g.hue),
                         border: '1px solid rgba(255,255,255,0.05)',
                       }}
                     >
-                      {g.image ? (
-                        <>
-                          <img
-                            src={g.image}
-                            alt={`${g.title} game thumbnail`}
-                            loading="lazy"
-                            className="absolute inset-0 h-full w-full object-cover"
-                          />
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              background:
-                                'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.55))',
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <i
-                          className={`fa-solid ${g.icon} game-card-art-icon text-5xl transition duration-500 group-hover:scale-[1.25]`}
-                        />
-                      )}
+                      <i
+                        className={`fa-solid ${g.icon} game-card-art-icon text-5xl transition duration-500 group-hover:scale-[1.25]`}
+                      />
                       <div className="overlay absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
                         <span className="play-button rounded-full px-4 py-1 text-sm font-bold transition">
                           PLAY
@@ -419,31 +341,13 @@ function App() {
                     <div
                       className="game-card-art relative mb-4 flex h-40 items-center justify-center overflow-hidden rounded-xl"
                       style={{
-                        background: g.image ? undefined : getCardArtBackground(g.hue),
+                        background: getCardArtBackground(g.hue),
                         border: '1px solid rgba(255,255,255,0.05)',
                       }}
                     >
-                      {g.image ? (
-                        <>
-                          <img
-                            src={g.image}
-                            alt={`${g.title} game thumbnail`}
-                            loading="lazy"
-                            className="absolute inset-0 h-full w-full object-cover"
-                          />
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              background:
-                                'linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.55))',
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <i
-                          className={`fa-solid ${g.icon} game-card-art-icon text-5xl transition duration-500 group-hover:scale-[1.25]`}
-                        />
-                      )}
+                      <i
+                        className={`fa-solid ${g.icon} game-card-art-icon text-5xl transition duration-500 group-hover:scale-[1.25]`}
+                      />
                       <div className="overlay absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
                         <span className="play-button rounded-full px-4 py-1 text-sm font-bold transition">
                           PLAY
