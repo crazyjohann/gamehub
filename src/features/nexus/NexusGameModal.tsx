@@ -133,15 +133,19 @@ export function NexusGameModal({ game, onClose }: Props) {
     else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen().catch(() => {})
   }
 
+  const isFullscreenStage = isPlaying
+
   return (
     <div
       id="game-modal"
-      className={`fixed inset-0 z-[100] ${isOpen ? 'flex' : 'hidden'} items-center justify-center p-4`}
+      className={`fixed inset-0 ${isFullscreenStage ? 'z-[450]' : 'z-[260]'} ${
+        isOpen ? 'flex' : 'hidden'
+      } ${isFullscreenStage ? 'items-stretch justify-stretch p-0' : 'items-center justify-center p-4'}`}
     >
       <button
         id="modal-backdrop"
         type="button"
-        className="modal-backdrop absolute inset-0"
+        className={`modal-backdrop absolute inset-0 ${isFullscreenStage ? 'hidden' : ''}`}
         onClick={handleClose}
         aria-label="Close"
       />
@@ -150,7 +154,11 @@ export function NexusGameModal({ game, onClose }: Props) {
         id="modal-content"
         className={`glass-card nx-modal-shell relative z-10 flex w-full max-w-5xl flex-col overflow-hidden border transition duration-300 ${
           animateIn ? 'nx-modal-in scale-100 opacity-100' : 'nx-modal-out scale-95 opacity-0'
-        } ${isPlaying ? 'h-screen w-screen max-w-none rounded-none border-0' : 'h-[90vh] rounded-2xl'}`}
+        } ${
+          isFullscreenStage
+            ? 'h-[100dvh] w-[100dvw] max-w-none rounded-none border-0'
+            : 'h-[90vh] rounded-2xl'
+        }`}
         style={{ borderColor: 'rgba(0,243,255,0.3)' }}
       >
         {!isPlaying && (
@@ -190,7 +198,7 @@ export function NexusGameModal({ game, onClose }: Props) {
           <div
             ref={containerRef}
             id="iframe-container"
-            className="relative flex flex-1 items-center justify-center"
+            className={`relative flex flex-1 items-center justify-center ${isFullscreenStage ? 'h-full w-full' : ''}`}
             style={{ background: '#000000' }}
           >
             {!isPlaying ? (
@@ -228,7 +236,8 @@ export function NexusGameModal({ game, onClose }: Props) {
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                   scrolling="no"
-                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  className="absolute inset-0 h-full w-full"
+                  style={{ border: 'none' }}
                 />
               </>
             )}

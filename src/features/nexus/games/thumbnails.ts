@@ -36,7 +36,7 @@ export function saveThumbnailCache(cache: NexusThumbnailCache) {
 }
 
 function normalizeThumbnailUrl(url: string, width: number) {
-  const cleaned = url.replaceAll('&amp;', '&')
+  const cleaned = url.replace(/&amp;/g, '&')
 
   // Ensure common resize params exist for consistent loading.
   if (cleaned.includes('?')) {

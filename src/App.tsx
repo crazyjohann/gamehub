@@ -126,10 +126,15 @@ function App() {
     return false
   }
 
+  function openGame(next: NexusGame) {
+    setThemeModalOpen(false)
+    setActiveGame(next)
+  }
+
   function randomGame() {
     if (!games.length) return
     const randomIndex = Math.floor(Math.random() * games.length)
-    setActiveGame(games[randomIndex])
+    openGame(games[randomIndex])
   }
 
   function handleCardMove(e: MouseEvent<HTMLElement>) {
@@ -163,7 +168,7 @@ function App() {
 
       <div className="nx-grid-overlay" aria-hidden="true" />
 
-      {isAuthed && (
+      {isAuthed && !activeGame && (
         <button
           type="button"
           onClick={() => setThemeModalOpen(true)}
@@ -273,7 +278,7 @@ function App() {
                   <button
                     key={g.slug}
                     type="button"
-                    onClick={() => setActiveGame(g)}
+                    onClick={() => openGame(g)}
                     className="featured-card glass-card nx-tilt-border nx-tilt-card group relative flex shrink-0 flex-col rounded-2xl p-4 text-left transition duration-300"
                     onMouseMove={handleCardMove}
                     onMouseLeave={handleCardLeave}
@@ -333,7 +338,7 @@ function App() {
                   <button
                     key={g.slug}
                     type="button"
-                    onClick={() => setActiveGame(g)}
+                    onClick={() => openGame(g)}
                     className="glass-card nx-tilt-border nx-tilt-card group relative flex h-[280px] flex-col rounded-2xl p-4 text-left transition duration-300"
                     onMouseMove={handleCardMove}
                     onMouseLeave={handleCardLeave}
